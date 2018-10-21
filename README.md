@@ -39,24 +39,48 @@ ncol = 1,
 heights = unit.c(unit(1, "npc") - lheight, lheight))
 }
 
+## Figure 1
 
-data2$category = ifelse(data2$sex == 1 & data2$autism == 1 , "autism_males", "other")
-data2$category = ifelse(data2$sex == 2 & data2$autism == 1 , "autism_females", data2$category)
-data2$category = ifelse(data2$sex == 2 & data2$autism == 0 , "control_females", data2$category)
-data2$category = ifelse(data2$sex == 1 & data2$autism == 0 , "control_males", data2$category)
+data2$key = ifelse(data2$sex == 1 & data2$autism == 1 , "autism males", "other")
+data2$key = ifelse(data2$sex == 2 & data2$autism == 1 , "autism females", data2$key)
+data2$key = ifelse(data2$sex == 2 & data2$autism == 0 , "control females", data2$key)
+data2$key = ifelse(data2$sex == 1 & data2$autism == 0 , "control males", data2$key)
 
 
-a = ggplot(data2, aes(x=SPQ_full, colour=category)) +   geom_density(adjust = 3) + theme_classic(base_size = 15)
+a = ggplot(data2, aes(x=SPQ_full, colour=key)) +   geom_density(adjust = 3) + theme_classic(base_size = 15) + xlab("SPQ-10")
 
-b = ggplot(data2, aes(x=SQ_full, colour=category)) +   geom_density(adjust = 3) + theme_classic(base_size = 15)
+b = ggplot(data2, aes(x=SQ_full, colour=key)) +   geom_density(adjust = 3) + theme_classic(base_size = 15) + xlab("SQ-10")
 
-c = ggplot(data2, aes(x=EQ_full, colour=category)) +   geom_density(adjust = 3) + theme_classic(base_size = 15)
+c = ggplot(data2, aes(x=EQ_full, colour=key)) +   geom_density(adjust = 3) + theme_classic(base_size = 15) + xlab ("EQ-10")
 
-d = ggplot(data2, aes(x=AQ_full, colour=category)) +   geom_density(adjust = 4) + theme_classic(base_size = 15)
-
+d = ggplot(data2, aes(x=AQ_full, colour=key)) +   geom_density(adjust = 4) + theme_classic(base_size = 15) + xlab("AQ-10") + scale_x_continuous(breaks=c(0,2,4,6,8,10))
 
 grid_arrange_shared_legend(d,b,c,a)
 
 
+## Figure 2
+
 ggplot(data2, aes(wheelwrightD, colour = category)) + stat_ecdf() +theme_classic(base_size = 16) + ylab ("Cumulative frequency") + xlab ("D-score")
+
+## Supplementary Figure 1
+
+controls = subset(data2, autism == "0")
+controls = controls[!is.na(controls$STEM),]
+
+controls$key = ifelse(controls$sex == 1 & controls$STEM == 1 , "STEM males", "other")
+controls$key = ifelse(controls$sex == 2 & controls$STEM == 1 , "STEM females", controls$key)
+controls$key = ifelse(controls$sex == 2 & controls$STEM == 0 , "Non-STEM females", controls$key)
+controls$key = ifelse(controls$sex == 1 & controls$STEM == 0 , "Non-STEM males", controls$key)
+
+
+a = ggplot(controls, aes(x=SPQ_full, colour=key)) +   geom_density(adjust = 3) + theme_classic(base_size = 15) + xlab("SPQ-10")
+
+b = ggplot(controls, aes(x=SQ_full, colour=key)) +   geom_density(adjust = 3) + theme_classic(base_size = 15) + xlab("SQ-10")
+
+c = ggplot(controls, aes(x=EQ_full, colour=key)) +   geom_density(adjust = 3) + theme_classic(base_size = 15) + xlab ("EQ-10")
+
+d = ggplot(controls, aes(x=AQ_full, colour=key)) +   geom_density(adjust = 4) + theme_classic(base_size = 15) + xlab("AQ-10") + scale_x_continuous(breaks=c(0,2,4,6,8,10))
+
+grid_arrange_shared_legend(d,b,c,a)
+
 ```
