@@ -156,4 +156,6 @@ a = ggplot(cohen_omega, aes( x = Age, y = dis_d, fill = Age, colour = Age)) + ge
 c = ggplot(cohen_omega, aes( x = Age, y = as.numeric(table1_omegat), fill = Age, colour = Age, colourPalette = colourpaletted_2)) + geom_smooth(method = lm, formula = y ~ splines::bs(x,3)) + geom_point() + theme_minimal() + ylab("Omega_total") + theme(legend.position = "none")
 
 b = ggplot(data_x, aes( x = Age, y = M, fill = Gender, colour = Gender)) + geom_smooth(method = loess, formula = y ~ x) + geom_point() + geom_errorbar(width=.3, aes(ymin = LCI, ymax = UCI)) + theme_minimal() + ylab("Mean score") + theme(legend.position = "none") 
+
+ggarrange(b, c, a, labels = c("A", "B", "C"), ncol = 1, nrow = 3)
 ```
