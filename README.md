@@ -133,3 +133,27 @@ g = ggplot(merged, aes(x = f.20522.0.0)) + geom_histogram() + theme_classic() + 
 
 SF5 = multiplot(a,b,c,d,e,f,g, cols = 2)
 ```
+
+##Figures from the new PNAS manuscript:
+
+```R
+##World plot
+colourpaletted = brewer.pal(n = 9, name = "Blues")
+reliability = read.delim("clipboard")
+mapped_data <- joinCountryData2Map(reliability, joinCode = "NAME", nameJoinColumn = "Country")
+mapCountryData(mapped_data, nameColumnToPlot = "Omega", colourPalette = colourpaletted, addLegend = FALSE, borderCol = "grey")
+
+colourpaletted_2 = brewer.pal(n = , name = "Oranges")
+
+
+pd <- position_dodge(width = 0.3)
+
+ggplot(data3, aes(x = Data, y = Correlation, fill = Type, colour = Type))+
+  geom_point(size = 5) + geom_errorbar(width=.3, aes(ymin = Correlation - 1.96*Standard.error, ymax = Correlation + 1.96*Standard.error)) +
+  theme_classic() + ylab("Correlation coefficient") + xlab ("PESH indicator") + geom_hline(yintercept = 0) + coord_flip() + scale_colour_manual(values=c("#C6DBEF", "#2171B5")) + theme(legend.position = "none")
+
+a = ggplot(cohen_omega, aes( x = Age, y = dis_d, fill = Age, colour = Age)) + geom_smooth(method = lm, formula = y ~ splines::bs(x,3)) + geom_point() + theme_minimal() + ylab("Disattenuated Cohen's d") + theme(legend.position = "none")
+c = ggplot(cohen_omega, aes( x = Age, y = as.numeric(table1_omegat), fill = Age, colour = Age, colourPalette = colourpaletted_2)) + geom_smooth(method = lm, formula = y ~ splines::bs(x,3)) + geom_point() + theme_minimal() + ylab("Omega_total") + theme(legend.position = "none")
+
+b = ggplot(data_x, aes( x = Age, y = M, fill = Gender, colour = Gender)) + geom_smooth(method = loess, formula = y ~ x) + geom_point() + geom_errorbar(width=.3, aes(ymin = LCI, ymax = UCI)) + theme_minimal() + ylab("Mean score") + theme(legend.position = "none") 
+```
