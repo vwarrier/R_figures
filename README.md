@@ -159,3 +159,10 @@ b = ggplot(data_x, aes( x = Age, y = M, fill = Gender, colour = Gender)) + geom_
 
 ggarrange(b, c, a, labels = c("A", "B", "C"), ncol = 1, nrow = 3)
 ```
+
+##Figure for scatterplot with two sets of CIs
+
+```R
+ggplot(data1, aes(x = Betameta, y = Betameta.1, fill = Category, colour = Category, label = Phenotype)) + 
++   geom_point() +   geom_errorbarh(width=.3, aes(xmin = Betameta-1.96*SEmeta, xmax = Betameta+1.96*SEmeta)) +  geom_errorbar(aes(ymin = Betameta.1-1.96*SEmeta.1,ymax = Betameta.1+1.96*SEmeta.1)) + theme_classic() + xlab("Regression coefficient without covarying for IQ") + ylab("Regression coefficient covarying for IQ") + geom_hline(yintercept = 0) + geom_vline(xintercept = 0) + geom_text(aes(label=Phenotype),hjust=1, vjust=0.5) + geom_abline(intercept = 0, colour = "grey", width  = 1.5)
+```
